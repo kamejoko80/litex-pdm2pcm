@@ -139,17 +139,24 @@ $ ./litex_setup.py dev init install --user
 
 # How Does It Work?
 
-The main component of PDM2PCM is the CIC filter. CIC filter has some advantages such as high performance, resource, and power efficiency... Furthermore, it does not require complex operations, including multiplication, division, and floating-point coefficients.
-In this project, we don't go into the details of how the CIC filter circuit works, so you can refer to [this link](https://www.dsprelated.com/showarticle/1337.php) for more information.
+The main component of PDM2PCM is the CIC filter. CIC filter has some advantages such as high performance, resource, and power efficiency... Furthermore, it does not require complex operations, including multiplication, division, and floating-point coefficients, and it definitely suitable for FPGA applications. Refer to [this link](https://www.dsprelated.com/showarticle/1337.php) for the details of how the CIC filter circuit works.
 
 In the project, the CIC filter has been implemented as the below block diagram:
 
 ```
+I/O signals:
+
 • input     : PDM signal input (one-bit data)
 • sys_clock : FPGA sync clock input.
 • fs        : Signal input sample frequency.
 • output    : PCM signal output (n-bit data)
-• valid     : Pulse indicates that the output signal is valid. 
+• valid     : Pulse indicates that the output signal is valid.
+
+Parameters:
+
+• M         : Number of stages.
+• R         : Decimation ratio.
+• W         : Output data width.
 ```
 
 ```
@@ -196,6 +203,45 @@ In the project, the CIC filter has been implemented as the below block diagram:
 #
 ###################################################################################################################
 ```
+
+The below block diagram shows how all components are connected together, PDM data input from DMIC (I used Merry 88D201020001). Depending on pdm_sel, the PDM output data is valid at the rising/falling edge of pdm_clk.
+PCM output is connected directly to the I2S module. The sampling frequency can be defined in module PDM_TO_PCM(), value is about 1.5MHz - 2.4MHz. The output I2S signals can be connected with a simple DAC IC such as MAX98357A. 
+
+```
+###################################################################################################################
+#
+# PDM TO PCM CONVERTER
+#
+# Block diagram:
+#                                           ____________             _______
+#                                   input  |            |  output   |       |
+#    pdm_dat  --->-------------------------|            |---------->|       |-------> i2s_sck
+#                                       fs | CIC_FILTER |  valid    |  I2S  |-------> i2s_ws
+#                                     o----|            |---------->|       |-------> i2s_so
+#                                     |    |____________|           |_______|
+#                      _________      |
+#    sys_clk ---->----|         |-----o
+#                     | CLK_GEN |---------------------------------------------------> pdm_clk
+#    ena     ---->----|_________|---------------------------------------------------> pdm_sel
+#
+#
+# Pulse diagram:
+#                        _   _   _   _   _   _   _   _   _   _   _   _   _   _   _   _   _   _   _   _
+#    sys_clk           _| |_| |_| |_| |_| |_| |_| |_| |_| |_| |_| |_| |_| |_| |_| |_| |_| |_| |_| |_| |_
+#                           ↑   ↑           ↑
+#                      cnt  0   1 ...      N-1
+#                            ___             ___             ___             ___             ___
+#    fs                _____|   |___________|   |___________|   |___________|   |___________|   |_______
+#                            _______         _______         _______         _______         _______
+#    pdm_clk (drive_f) _____|       |_______|       |_______|       |_______|       |_______|       |___
+#                      _____         _______         _______         _______         _______         ___
+#    pdm_clk (drive_r)      |_______|       |_______|       |_______|       |_______|       |_______|
+#
+#
+#
+###################################################################################################################
+```
+
 
 # Simulation
 
