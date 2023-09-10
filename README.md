@@ -1,7 +1,6 @@
 # litex-pdm2pcm
 
-    In this project, we implement a simple PDM to PCM converter (PDM2PCM) based on the Migen FHDL library and Litex framework.
-We've utilized the CIC filter as a primary component and provided source code support for flexible input parameter adjustment.
+In this project, we implement a simple PDM to PCM converter (PDM2PCM) based on the Migen FHDL library and Litex framework. We've utilized the CIC filter as a primary component and provided source code support for flexible input parameter adjustment.
 In addition, the simulation part illustrates how to verify the results of a design, and finally, deploy it onto a specific FPGA hardware platform for demostration.
 
 # Host PC Build System Requirements
@@ -136,8 +135,7 @@ $ ./litex_setup.py dev init install --user
 
 # How Does It Work?
 
-    The main component of PDM2PCM is the CIC filter. CIC filter has some advantages such as high performance, resource, and power efficiency...
-Furthermore, it does not require complex operations, including multiplication, division, and floating-point coefficients.
+The main component of PDM2PCM is the CIC filter. CIC filter has some advantages such as high performance, resource, and power efficiency... Furthermore, it does not require complex operations, including multiplication, division, and floating-point coefficients.
 In this project, we don't go into the details of how the CIC filter circuit works, so you can refer to [this link](https://www.dsprelated.com/showarticle/1337.php) for more information.
 
 
