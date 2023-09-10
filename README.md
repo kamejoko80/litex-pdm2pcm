@@ -248,10 +248,13 @@ PCM output is connected directly to the I2S module. The sampling frequency can b
 
 # Reference links:
 
-```
 https://www.koheron.com/blog/2016/09/27/pulse-density-modulation
+
 https://en.wikipedia.org/wiki/Pulse-density_modulation
+
 https://www.dsprelated.com/showarticle/1337.php
+
 https://www.gaussianwaves.com/2020/01/how-to-plot-fft-in-python-fft-of-basic-signals-sine-and-cosine-waves/
+
 https://matplotlib.org/stable/gallery/subplots_axes_and_figures/subplots_demo.html
-```
+
