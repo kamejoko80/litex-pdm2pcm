@@ -108,13 +108,12 @@ $ ./litex_setup.py dev init install --user
     +-- yosys
 ```
 
+```
 • litex : A colection of Litex's libraries.
-
 • litex-boards : Defined different FPGA HW platforms.
-
 • migen : Mignen FHDL library.
-
 • toolchains : Open source verilog HDL synthesizer (yosys), place and router (nextpnr) ...
+```
 
 2. Project folder structure:
 
@@ -132,16 +131,71 @@ $ ./litex_setup.py dev init install --user
 +-- litex_setup.py
 ```
 
+```
 • custom_boards   : Defined custom FPGA HW platform.
-
 • custom_ipcores  : Custom FHDL ipcore source code.
-
 • custom_projects : Custom FPGA project.
+```
 
 # How Does It Work?
 
 The main component of PDM2PCM is the CIC filter. CIC filter has some advantages such as high performance, resource, and power efficiency... Furthermore, it does not require complex operations, including multiplication, division, and floating-point coefficients.
 In this project, we don't go into the details of how the CIC filter circuit works, so you can refer to [this link](https://www.dsprelated.com/showarticle/1337.php) for more information.
+
+In the project, the CIC filter has been implemented as the below block diagram:
+
+```
+• input     : PDM signal input (one-bit data)
+• sys_clock : FPGA sync clock input.
+• fs        : Signal input sample frequency.
+• output    : PCM signal output (n-bit data)
+• valid     : Pulse indicates that the output signal is valid. 
+```
+
+```
+###################################################################################################################
+#
+# CONFIGURABLE CIC FILTER IMPLEMENTATION WITH A SEPARATED SAMPLING FREQUENCY INPUT
+#
+# Block diagram:
+#                                 Integrators                     Decimator              Combs
+#                         _____________/\____________              __/\___     ___________/\___________
+#                        /                           \            /       \   /                        \
+#              ____                                                 _____
+#  input      |    |           intg[0]          intg[M-1]          |     |    comb[0]            comb[M-1]     output
+#  ------>----|buff|--->(+)-------O---->...(+)-------O-------------| ↓R  |-------O---->(+)........---O---->(+)------>
+#             |    |     |      __|__       |      __|__           |_____|     __|__    |-         __|__    |-
+#          |->|____|     |     |     |      |     |     |            | |      |     |   |         |     |   |
+#          |             ^     | Z-1 |      ^     | Z-1 |            | |      | Z-1 |   ^         | Z-1 |   ^
+#          |             |  |->|_____|      |  |->|_____|            | | |--->|_____|   |  |----->|_____|   |
+#          |             |  |     |         |  |     |               | | |       |      |  |         |      |
+#          |             |__|_____|di[0]    |__|_____|di[M-1]        | | | dc[0] |______|  | dc[M-1] |______|
+#          |                |                  |                     | | |                 |
+#          O----------------O------------------O                     | | O-----------------O
+#                           |                                        | |                   |                     valid
+#  sys_clk  _____           |                                        | O-------------------|------------------------->
+#  --------|     |          |                                        |                     |
+#  fs      |  &  |----------O shift_1                                | ena      _____      |
+#  --------|_____|                                                   O---------|     |     |
+#                                                                      sys_clk |  &  |-----O shift_2
+#                                                                    ----------|_____|
+# Pulse diagram:
+#                     _   _   _   _   _   _   _   _   _   _   _   _   _   _   _   _   _   _   _   _   _
+#           sys_clk _| |_| |_| |_| |_| |_| |_| |_| |_| |_| |_| |_| |_| |_| |_| |_| |_| |_| |_| |_| |_| |_
+#                             ___             ___             ___             ___             ___
+#           fs      _________|   |___________|   |____...____|   |___________|   |___________|   |_______
+#                                ↑               ↑               ↑               ↑               ↑
+#                       cnt      0               1              R-1              0               1
+#                                    sample[0]       sample[1]       sample[R-1]
+#                                                                                 ___
+#           shift_2 _____________________________________________________________|   |_______________
+#                                                                                     ___
+#           valid   _________________________________________________________________|   |___________
+#                                                                                    ↑
+#                                                                               valid output
+#
+###################################################################################################################
+```
 
 # Simulation
 
