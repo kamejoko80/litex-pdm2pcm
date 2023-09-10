@@ -109,8 +109,11 @@ $ ./litex_setup.py dev init install --user
 ```
 
 • litex : A colection of Litex's libraries.
+
 • litex-boards : Defined different FPGA HW platforms.
+
 • migen : Mignen FHDL library.
+
 • toolchains : Open source verilog HDL synthesizer (yosys), place and router (nextpnr) ...
 
 2. Project folder structure:
@@ -130,14 +133,15 @@ $ ./litex_setup.py dev init install --user
 ```
 
 • custom_boards   : Defined custom FPGA HW platform.
+
 • custom_ipcores  : Custom FHDL ipcore source code.
+
 • custom_projects : Custom FPGA project.
 
 # How Does It Work?
 
 The main component of PDM2PCM is the CIC filter. CIC filter has some advantages such as high performance, resource, and power efficiency... Furthermore, it does not require complex operations, including multiplication, division, and floating-point coefficients.
 In this project, we don't go into the details of how the CIC filter circuit works, so you can refer to [this link](https://www.dsprelated.com/showarticle/1337.php) for more information.
-
 
 # Simulation
 
