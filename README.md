@@ -6,8 +6,8 @@ In addition, the simulation part illustrates how to verify the results of a desi
 
 # Host PC Build System Requirements
 
-• Ubuntu 18.04 LTS or later.
-• Python 3.x
+â€¢ Ubuntu 18.04 LTS or later.
+â€¢ Python 3.x
 
 ```
 $ sudo apt install build-essential device-tree-compiler wget git python3-setuptools python3-pip libftdi* libboost-all-dev
@@ -98,10 +98,10 @@ $ ./litex_setup.py dev init install --user
 ```
 .
 +-- workdir
-¦   +-- litex
-¦   +-- litex-boards
-¦   +-- litex-pdm2pcm
-¦   +-- migen
+Â¦Â Â  +-- litex
+Â¦Â Â  +-- litex-boards
+Â¦Â Â  +-- litex-pdm2pcm
+Â¦Â Â  +-- migen
 +-- toolchains
     +-- icestorm
     +-- nextpnr
@@ -109,10 +109,10 @@ $ ./litex_setup.py dev init install --user
     +-- yosys
 ```
 
-• litex : A colection of Litex's libraries.
-• litex-boards : Defined different FPGA HW platforms.
-• migen : Mignen FHDL library.
-• toolchains : Open source verilog HDL synthesizer (yosys), place and router (nextpnr) ...
+â€¢ litex : A colection of Litex's libraries.
+â€¢ litex-boards : Defined different FPGA HW platforms.
+â€¢ migen : Mignen FHDL library.
+â€¢ toolchains : Open source verilog HDL synthesizer (yosys), place and router (nextpnr) ...
 
 2. Project folder structure:
 
@@ -121,24 +121,24 @@ $ ./litex_setup.py dev init install --user
 +-- LICENSE
 +-- README.md
 +-- custom_boards
-¦   +-- platforms
-¦       +-- icestick.py
+Â¦Â Â  +-- platforms
+Â¦Â Â      +-- icestick.py
 +-- custom_ipcores
-¦   +-- pdm.py
+Â¦Â Â  +-- pdm.py
 +-- custom_projects
-¦   +-- pdm_to_pcm_icestick.py
+Â¦Â Â  +-- pdm_to_pcm_icestick.py
 +-- litex_setup.py
 ```
 
-• custom_boards   : Defined custom FPGA HW platform.
-• custom_ipcores  : Custom FHDL ipcore source code.
-• custom_projects : Custom FPGA project.
+â€¢ custom_boards   : Defined custom FPGA HW platform.
+â€¢ custom_ipcores  : Custom FHDL ipcore source code.
+â€¢ custom_projects : Custom FPGA project.
 
 # How Does It Work?
 
-The main component of PDM2PCM is CIC filter which is a low pass filter. CIC filter has some advantages such as high perfomance, resource and power efficiency...
+The main component of PDM2PCM is the CIC filter. CIC filter has some advantages such as high performance, resource, and power efficiency...
 Furthermore, it does not require complex operations, including multiplication, division, and floating-point coefficients.
-In this project we don't deep dive into the details of how the CIC filter circuit works refer to this link for the detail.
+In this project, we don't go into the details of how the CIC filter circuit works, so you can refer to [this link](https://www.dsprelated.com/showarticle/1337.php) for more information.
 
 
 # Simulation
