@@ -283,6 +283,45 @@ the input sampling frequency is fs_in = 640KHz, output sampling frequency = fs_i
 
 ```
 
+Execute the below commands to run the simulation:
+
+```shell
+$ cd workdir/litex-pdm2pcm/custom_ipcores
+$ python3 pdm.py
+```
+
+![Frequency response](/picture/simulation_1_1.png "Frequency response")
+
+
+The output response shows that higher-frequency components (> 5Khz) have been removed completely. 
+Also, there is a .VCD file has been generated as a result of simulation command, We can verify the details of the internal signals as well.
+
+```shell
+$ gtkwave CIC_FILTER.vcd
+```
+
+![Simulation waveform](/picture/simulation_1_2.png "Simulation waveform")
+
+
+To verify the actual HW design, let's go with the simulation test bench below:  
+
+```python
+dut = PDM_TO_PCM(sys_clk_freq=96000e3, fs_in=2400e3, M=5, R=50, dw=16, scale_factor=1e6)
+run_simulation(dut, PDM_TO_PCM_TB(dut, sys_clk_freq=96000e3, fs_in=2400e3, M=5, R=50, dw=16, scale_factor=1e6), clocks={"sys": int(1e9/96000e3)}, vcd_name="PDM_TO_PCM.vcd")
+```
+
+The parameters are set closely to real-world conditions:
+
+```python
+• sys_clk_freq  : FPGA sync frequency = 96MHz
+• fs_in         : PDM oversampling rate = 2.4MHz (pdm_clk)
+• M             : CIC stages = 5
+• R             : Decimation ratio = 50 => fs_out = 48KHz
+• dw            : 16 bit PCM data output
+• scale_factor  : scale_factor = 1e6 
+```
+
+
 
 # Reference links:
 
