@@ -1,11 +1,11 @@
-# litex-pdm2pcm
+# Design a PDM to PCM converter and implement it on an FPGA.
 
 In this project, we implement a simple PDM to PCM converter (PDM2PCM) based on the Migen FHDL library and Litex framework. We've utilized the CIC filter as a primary component and provided source code support for flexible input parameter adjustment.
 In addition, the simulation part illustrates how to verify the results of a design, and finally, deploy it onto a specific FPGA hardware platform for demostration.
 
 # Host PC Build System Requirements
 
-```
+```shell
 • Ubuntu 18.04 LTS or later.
 • Python 3.x
 
@@ -16,7 +16,7 @@ $ pip3 install numpy matplotlib scipy
 
 ## Installing Verilator (only needed for simulation)
 
-```
+```shell
 $ sudo apt install verilator
 $ sudo apt install libevent-dev libjson-c-dev
 $ sudo apt install gtkwave
@@ -24,7 +24,7 @@ $ sudo apt install gtkwave
 
 ## Install iCE40 toolchains
 
-```
+```shell
 $ mkdir toolchains
 $ cd toolchains
 $ git clone --recurse-submodules https://github.com/YosysHQ/icestorm.git
@@ -35,7 +35,7 @@ $ sudo make install
 
 ## Intsall NextPNR (In somecase you need to build cmake (new version from source))
 
-```
+```shell
 $ tar -xvf v3.20.1.tar.gz
 $ CMake-3.20.1
 $ ./bootstrap
@@ -45,7 +45,7 @@ $ make -j$(nproc)
 
 ## Install libtrellis
 
-```
+```shell
 $ cd toolchains
 $ git clone --recursive https://github.com/YosysHQ/prjtrellis
 $ cd prjtrellis/libtrellis
@@ -54,7 +54,7 @@ $ make -j$(nproc)
 $ sudo make install
 ```
 
-```
+```shell
 $ cd toolchains
 $ git clone --recurse-submodules https://github.com/YosysHQ/nextpnr
 $ cd nextpnr
@@ -65,13 +65,13 @@ $ sudo make install
 
 ## Install nextpnr-xilinx (experiment)
 
-```
+```shell
 https://github.com/gatecat/nextpnr-xilinx
 ```
 
 ## Intsall yosys
 
-```
+```shell
 $ cd toolchains
 $ git clone --recurse-submodules https://github.com/YosysHQ/yosys.git yosys
 $ cd yosys
@@ -81,7 +81,7 @@ $ sudo make install
 
 ## Install Project Build Environment
 
-```
+```shell
 $ mkdir workdir
 $ cd workdir
 $ git clone https://github.com/kamejoko80/litex-pdm2pcm.git
@@ -94,7 +94,7 @@ $ ./litex_setup.py dev init install --user
 
 1. Build environment structure is oganized as below:
 
-```
+```shell
 .
 +-- workdir
 ¦   +-- litex
@@ -108,7 +108,7 @@ $ ./litex_setup.py dev init install --user
     +-- yosys
 ```
 
-```
+```shell
 • litex : A colection of Litex's libraries.
 • litex-boards : Defined different FPGA HW platforms.
 • migen : Mignen FHDL library.
@@ -117,7 +117,7 @@ $ ./litex_setup.py dev init install --user
 
 2. Project folder structure:
 
-```
+```shell
 .
 +-- LICENSE
 +-- README.md
@@ -131,7 +131,7 @@ $ ./litex_setup.py dev init install --user
 +-- litex_setup.py
 ```
 
-```
+```python
 • custom_boards   : Defined custom FPGA HW platform.
 • custom_ipcores  : Custom FHDL ipcore source code.
 • custom_projects : Custom FPGA project.
@@ -142,7 +142,7 @@ PDM is a digital audio representation that represents audio as a stream of 1s an
 
 In the project, the CIC filter has been implemented as the below block diagram:
 
-```
+```python
 I/O signals:
 
 • input     : PDM signal input (one-bit data)
@@ -205,13 +205,13 @@ The below block diagram shows how all components are connected together, PDM dat
 PCM output is connected directly to the I2S module. The sampling frequency can be defined in module PDM_TO_PCM(), value is about 1.5MHz - 2.4MHz. The output I2S signals can be connected with a simple DAC IC such as MAX98357A. 
 The CIC includes 2's complement integer add/subtract, to ensure that the output does not overflow, its bit width needs to satisfy the following condition:
 
-```
+```python
 nbit = 1 + math.ceil(M * math.log2(R))
 ```
 
 In general, the bit width of I2S input is 8, 16, and 24 so we need to scale down the CIC output before feeding the PCM data into the I2S module. It is simply defined by a scale_factor parameter:
 
-```
+```python
 self.sync += [
     If(cic.valid,
         buff.eq(cic.output >> math.ceil(math.log2(scale_factor))),
@@ -253,8 +253,35 @@ self.sync += [
 ###################################################################################################################
 ```
 
-
 # Simulation
+
+Let's start to simulate and verify the design. First, modify the main function (in pdm.py) as below:
+
+```
+dut = CIC_FILTER(M=3, R=64, W=8)
+run_simulation(dut, CIC_FILTER_TB(dut), clocks={"sys": int(1e9/6400e3)}, vcd_name="CIC_FILTER.vcd")
+```
+
+Parameter descriptions:
+
+```python
+# CIC filter parameters
+M = 3  # number of stage
+R = 64 # decimination
+
+gain = (R * 1) ** M
+
+# signal frequency
+f1 = 100   # Hz
+f2 = 4e3   # Hz
+f3 = 50e3  # Hz
+f4 = 100e3 # Hz
+a  = 2
+
+The input signal includes some frequency components and white noise,
+the input sampling frequency is fs_in = 640KHz, output sampling frequency = fs_in/R = 10KHz.
+
+```
 
 
 # Reference links:
