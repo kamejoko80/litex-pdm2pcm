@@ -203,7 +203,7 @@ Parameters:
 
 The below block diagram shows how all components are connected together, PDM data input from DMIC (I used Merry 88D201020001). Depending on pdm_sel, the PDM output data is valid at the rising/falling edge of pdm_clk.
 PCM output is connected directly to the I2S module. The sampling frequency can be defined in module PDM_TO_PCM(), value is about 1.5MHz - 2.4MHz. The output I2S signals can be connected with a simple DAC IC such as MAX98357A. 
-The CIC includes 2's complement integer add/subtract, To ensure that the output does not overflow, its bit width needs to satisfy the following condition:
+The CIC includes 2's complement integer add/subtract, to ensure that the output does not overflow, its bit width needs to satisfy the following condition:
 
 ```
 nbit = 1 + math.ceil(M * math.log2(R))
