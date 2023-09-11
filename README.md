@@ -292,6 +292,17 @@ $ python3 pdm.py
 
 ![Frequency response](/picture/simulation_1_1.png "Frequency response")
 
+
+The output response shows that higher-frequency components (> 5Khz) have been removed completely. 
+Also, there is a .VCD file has been generated as a result of simulation command, We can verify the details of the internal signals as well.
+
+```shell
+$ gtkwave CIC_FILTER.vcd
+```
+
+![Simulation waveform](/picture/simulation_1_2.png "Simulation waveform")
+
+
 # Reference links:
 
 https://www.koheron.com/blog/2016/09/27/pulse-density-modulation
