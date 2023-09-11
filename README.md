@@ -303,6 +303,26 @@ $ gtkwave CIC_FILTER.vcd
 ![Simulation waveform](/picture/simulation_1_2.png "Simulation waveform")
 
 
+To verify the actual HW design, let's go with the simulation test bench below:  
+
+```python
+dut = PDM_TO_PCM(sys_clk_freq=96000e3, fs_in=2400e3, M=5, R=50, dw=16, scale_factor=1e6)
+run_simulation(dut, PDM_TO_PCM_TB(dut, sys_clk_freq=96000e3, fs_in=2400e3, M=5, R=50, dw=16, scale_factor=1e6), clocks={"sys": int(1e9/96000e3)}, vcd_name="PDM_TO_PCM.vcd")
+```
+
+The parameters are set closely to real-world conditions:
+
+```python
+• sys_clk_freq  : FPGA sync frequency = 96MHz
+• fs_in         : PDM oversampling rate = 2.4MHz (pdm_clk)
+• M             : CIC stages = 5
+• R             : Decimation ratio = 50 => fs_out = 48KHz
+• dw            : 16 bit PCM data output
+• scale_factor  : scale_factor = 1e6 
+```
+
+
+
 # Reference links:
 
 https://www.koheron.com/blog/2016/09/27/pulse-density-modulation
