@@ -1,7 +1,7 @@
-# Design a PDM to PCM converter and implement it on an FPGA.
+# Design a simple PDM to PCM converter and implement it on an FPGA.
 
 In this project, we implement a simple PDM to PCM converter (PDM2PCM) based on the Migen FHDL library and Litex framework. We've utilized the CIC filter as a primary component and provided source code support for flexible input parameter adjustment.
-In addition, the simulation part illustrates how to verify the results of a design, and finally, deploy it onto a specific FPGA hardware platform for demostration.
+In addition, the simulation part illustrates how to verify the results of a design, and finally, deploy it onto a specific FPGA hardware platform for demonstration.
 
 # Host PC Build System Requirements
 
@@ -332,6 +332,57 @@ With CIC stage = 5, we have a better filter output, not only higher-frequency bu
 Finally, the internal signal waveform can be verified from the PDM_TO_PCM.vcd file.
 
 ![Signal wavefrom](/picture/simulation_2_3.png "Signal waveform")
+
+# Test With FPGA
+
+We can deploy the design on a real FPGA platform. In this project, we chose the ICE stick EVB from Lattice. The synthesizable source code is located in the folder custom_projects.  
+
+```shell
+$ cd custom_projects
+$ python3 pdm_to_pcm_icestick.py --build
+```
+
+After compiling the source successfully, a build folder is generated including a typical icestorm project build script, Verilog, FPGA pin assignment...
+
+```shell
+└── icestick
+    ├── build_icestick.sh
+    ├── icestick.asc
+    ├── icestick.bin
+    ├── icestick.json
+    ├── icestick.pcf
+    ├── icestick_pre_pack.py
+    ├── icestick.rpt
+    ├── icestick.v
+    └── icestick.ys
+
+The FPGA resource is listed in a file named icestick.rpt
+
+=== icestick ===
+
+   Number of wires:                139
+   Number of wire bits:           1379
+   Number of public wires:         139
+   Number of public wire bits:    1379
+   Number of memories:               0
+   Number of memory bits:            0
+   Number of processes:              0
+   Number of cells:               1215
+     SB_CARRY                      303
+     SB_DFF                          1
+     SB_DFFE                       369
+     SB_DFFESR                      27
+     SB_DFFSR                        4
+     SB_LUT4                       510
+     SB_PLL40_CORE                   1
+
+```
+
+To flash the FPGA bitstream, plug the ice stick USB connector into the Linux PC then execute the below command:
+
+```shell
+$ python3 pdm_to_pcm_icestick.py --flash
+```
 
 # Reference links:
 
