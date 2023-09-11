@@ -79,6 +79,16 @@ $ make -j$(nproc)
 $ sudo make install
 ```
 
+## Added USB permission
+
+```shell
+$ sudo nano /etc/udev/rules.d/99-my-usb.rules
+Add line:
+SUBSYSTEM=="usb", ATTR{idVendor}=="0403", ATTR{idProduct}=="6010", MODE="0666"
+$ sudo udevadm control --reload-rules
+$ sudo service udev restart
+```
+
 ## Install Project Build Environment
 
 ```shell
@@ -294,7 +304,7 @@ $ python3 pdm.py
 
 
 The output response shows that higher-frequency components (> 5Khz) have been removed completely. 
-Also, there is a .vcd file has been generated as a result of simulation command, We can verify the details of the internal signals as well.
+Also, there is a .vcd file has been generated as a result of the simulation command, We can verify the details of the internal signals as well.
 
 ```shell
 $ gtkwave CIC_FILTER.vcd
@@ -335,7 +345,19 @@ Finally, the internal signal waveform can be verified from the PDM_TO_PCM.vcd fi
 
 # Test With FPGA
 
-We can deploy the design on a real FPGA platform. In this project, we chose the ICE stick EVB from Lattice. The synthesizable source code is located in the folder custom_projects.  
+The synthesizable source code is located in the folder custom_projects. In this project, we chose the ICE stick from Lattice. 
+
+HW connection:
+
+![HW connection](/picture/icestick_connection_bb.png "HW connection")
+
+HW components:
+
+```python
+• DMIC       : Merry 88D201020001
+• I2S module : Adafruit MAX98357A 
+• ICE Stick  : Lattice iCE40HX1K FPGA evaluation board.
+```
 
 ```shell
 $ cd custom_projects
