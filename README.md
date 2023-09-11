@@ -283,6 +283,14 @@ the input sampling frequency is fs_in = 640KHz, output sampling frequency = fs_i
 
 ```
 
+Execute the below commands to run the simulation:
+
+```shell
+$ cd workdir/litex-pdm2pcm/custom_ipcores
+$ python3 pdm.py
+```
+
+![Frequency response](/picture/simulation_1_1.png "Frequency response")
 
 # Reference links:
 
