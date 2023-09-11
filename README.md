@@ -294,7 +294,7 @@ $ python3 pdm.py
 
 
 The output response shows that higher-frequency components (> 5Khz) have been removed completely. 
-Also, there is a .VCD file has been generated as a result of simulation command, We can verify the details of the internal signals as well.
+Also, there is a .vcd file has been generated as a result of simulation command, We can verify the details of the internal signals as well.
 
 ```shell
 $ gtkwave CIC_FILTER.vcd
@@ -325,9 +325,13 @@ The test bench function PDM_TO_PCM_TB() converts input to the PDM data before fe
 
 ![Time domain waveform](/picture/simulation_2_1.png "Input/Output signal waveform")
 
-With CIC stage = 5, we have a better filter output, not only higher-frequency but also background noise have been removed completely.
+With CIC stage = 5, we have a better filter output, not only higher-frequency but also background noise has been removed completely.
 
 ![Frequency domain response](/picture/simulation_2_2.png "Input/Output frequency response")
+
+Finally, the internal signal waveform can be verified from the PDM_TO_PCM.vcd file.
+
+![Signal wavefrom](/picture/simulation_2_3.png "Signal waveform")
 
 # Reference links:
 
