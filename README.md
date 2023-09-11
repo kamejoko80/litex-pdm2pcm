@@ -156,9 +156,7 @@ Parameters:
 • M         : Number of stages.
 • R         : Decimation ratio.
 • W         : Output data width.
-```
 
-```
 ###################################################################################################################
 #
 # CONFIGURABLE CIC FILTER IMPLEMENTATION WITH A SEPARATED SAMPLING FREQUENCY INPUT
@@ -220,9 +218,7 @@ self.sync += [
         i2s_pulse_ena.eq(1),
     ),
    ...
-```
 
-```
 ###################################################################################################################
 #
 # PDM TO PCM CONVERTER
