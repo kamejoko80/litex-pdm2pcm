@@ -5,10 +5,10 @@ In addition, the simulation part illustrates how to verify the results of a desi
 
 # Host PC Build System Requirements
 
+```
 • Ubuntu 18.04 LTS or later.
 • Python 3.x
 
-```
 $ sudo apt install build-essential device-tree-compiler wget git python3-setuptools python3-pip libftdi* libboost-all-dev
 $ sudo apt-get install libeigen3-dev aptitude clang tcl tcl8.6-dev libreadline-dev flex bison gcc-multilib g++-multilib
 $ pip3 install numpy matplotlib scipy
