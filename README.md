@@ -138,8 +138,7 @@ $ ./litex_setup.py dev init install --user
 ```
 
 # How Does It Work?
-
-The main component of PDM2PCM is the CIC filter. CIC filter has some advantages such as high performance, resource, and power efficiency... Furthermore, it does not require complex operations, including multiplication, division, and floating-point coefficients, and it definitely suitable for FPGA applications. Refer to [this link](https://www.dsprelated.com/showarticle/1337.php) for the details of how the CIC filter circuit works.
+PDM is a digital audio representation that represents audio as a stream of 1s and 0s, where the density of 1s in a time interval represents the amplitude of the audio signal. It's typically used in digital microphones. Each rising or falling edge of the PDM signal represents a change in the audio waveform. Before converting PDM to PCM, it's common to apply a low-pass filter to the PDM data. This filter helps remove high-frequency noise and smooth out the signal. The specifics of the filter design depend on your hardware and requirements. PDM data is usually sampled at a very high rate (often in the megahertz range), which is much higher than the typical audio sample rate (e.g., 44.1 kHz for CD-quality audio). Decimation is the process of reducing the sample rate of the PDM data to match the target PCM sample rate. CIC filter has 2 above characteristics and there are some advantages such as high performance, resource, and power efficiency... Furthermore, it does not require complex operations, including multiplication, division, and floating-point coefficients, and it definitely suitable for FPGA applications. Refer to [this link](https://www.dsprelated.com/showarticle/1337.php) for the details of how the CIC filter circuit works.
 
 In the project, the CIC filter has been implemented as the below block diagram:
 
