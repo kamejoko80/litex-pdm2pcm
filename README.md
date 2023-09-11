@@ -302,7 +302,6 @@ $ gtkwave CIC_FILTER.vcd
 
 ![Simulation waveform](/picture/simulation_1_2.png "Simulation waveform")
 
-
 To verify the actual HW design, let's go with the simulation test bench below:  
 
 ```python
@@ -321,7 +320,14 @@ The parameters are set closely to real-world conditions:
 • scale_factor  : scale_factor = 1e6 
 ```
 
+The input includes some sinusoidal frequency components 5KHz, 10KHz, 15KHz, and 50KHz, background noise is also added.
+The test bench function PDM_TO_PCM_TB() converts input to the PDM data before feeding into the CIC filter, in result We have the input/output as below:
 
+![Time domain waveform](/picture/simulation_2_1.png "Input/Output signal waveform")
+
+With CIC stage = 5, we have a better filter output, not only higher-frequency but also background noise have been removed completely.
+
+![Frequency domain response](/picture/simulation_2_2.png "Input/Output frequency response")
 
 # Reference links:
 
