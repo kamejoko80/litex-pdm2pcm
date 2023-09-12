@@ -405,11 +405,13 @@ To flash the FPGA bitstream, plug the ice stick USB connector into the Linux PC 
 ```shell
 $ python3 pdm_to_pcm_icestick.py --flash
 ```
+After the programming is completed, connect the headphones or speaker to the MAX98357A's output then we can hear the sound. 
 
 # Conclustion
 
 We have implemented a simple PDM2PCM module to record audio from the DMIC and play it back through the speaker. 
 With an FPGA, we can easily replicate the PDM2PCM module to build a microphone array system. Migen and LiteX are beneficial tools for FPGA developers, helping us reduce development time.
+Similarly, we can easily build digital filters because Migen is based on Python, allowing flexible module integration. Developers don't have to define as many ports as in the Verilog language.
 
 # Reference links:
 
