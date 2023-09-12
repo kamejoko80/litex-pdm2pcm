@@ -345,7 +345,7 @@ Finally, the internal signal waveform can be verified from the PDM_TO_PCM.vcd fi
 
 # Test With FPGA
 
-The synthesizable source code is located in the folder custom_projects. In this project, we chose the ICE stick from Lattice. 
+In this project, we chose the ICE stick ICE40 as a HW platform. The synthesizable source code is located in the folder custom_projects/pdm_to_pcm_icestick.py. 
 
 HW connection:
 
