@@ -408,9 +408,8 @@ $ python3 pdm_to_pcm_icestick.py --flash
 
 # Conclustion
 
-We have implemented a simple PDM2PCM module to record audio from the DMIC and playback over the speaker.
-With FPGA, we can simply replicate the PDM2PCM module to build a microphone array system. 
-Migen & Litex are good for FPGA developers and help us to reduce the development time. 
+We have implemented a simple PDM2PCM module to record audio from the DMIC and play it back through the speaker. 
+With an FPGA, we can easily replicate the PDM2PCM module to build a microphone array system. Migen and LiteX are beneficial tools for FPGA developers, helping us reduce development time.
 
 # Reference links:
 
