@@ -1,6 +1,6 @@
 # Design a simple PDM to PCM converter and implement it on an FPGA.
 
-In this project, we implement a simple PDM to PCM converter (PDM2PCM) based on the Migen FHDL library and Litex framework. We've utilized the CIC filter as a primary component and provided source code support for flexible input parameter adjustment.
+In this project, we implement a simple PDM to PCM converter (PDM2PCM) based on the Migen FHDL library and LiteX toolbox. We've utilized the CIC filter as a primary component and provided source code support for flexible input parameter adjustment.
 In addition, the simulation part illustrates how to verify the results of a design, and finally, deploy it onto a specific FPGA hardware platform for demonstration.
 
 # Host PC Build System Requirements
