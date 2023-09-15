@@ -407,6 +407,10 @@ $ python3 pdm_to_pcm_icestick.py --flash
 ```
 After the programming is completed, connect the headphones or speaker to the MAX98357A's output then we can hear the sound. 
 
+https://www.youtube.com/watch?v=zjK5RFyo3O0
+
+[![Demo](https://img.youtube.com/vi/zjK5RFyo3O0/hqdefault.jpg)](https://www.youtube.com/embed/zjK5RFyo3O0)
+
 # Conclustion
 
 We have implemented a simple PDM2PCM module to record audio from the DMIC and play it back through the speaker. 
